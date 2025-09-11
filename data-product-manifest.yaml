@@ -1,0 +1,106 @@
+jobId: "1086"
+jobName: 9 - Trim - Customer - Suman
+jobType: Source Aligned Data Product
+developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
+domain: business
+alias: 9_employee_trim
+discoveryPort:
+  name: 9 - Trim - Customer - Suman
+inputPorts:
+  - alias: Postgres_Customer_1
+    isDynamic: true
+    connection: Postgres Connection
+    tableName/query: customer
+    optional:
+      persistDataFrame: false
+      enableDataReconciliation: false
+      enforceSchema: false
+      jsonSchema: '{"customer_id":{"type":"integer","source_table":"retail_schema.customer","source_column":"customer_id","description":"Unique
+        identifier for each
+        customer"},"customer_name":{"type":"string","source_table":"retail_schema.customer","source_column":"customer_name","description":"Full
+        name of the
+        customer"},"email":{"type":"string","source_table":"retail_schema.customer","source_column":"email","description":"Email
+        address of the
+        customer"},"phone":{"type":"string","source_table":"retail_schema.customer","source_column":"phone","description":"Phone
+        number of the
+        customer"},"city":{"type":"string","source_table":"retail_schema.customer","source_column":"city","description":"City
+        where the customer
+        resides"},"country":{"type":"string","source_table":"retail_schema.customer","source_column":"country","description":"Country
+        where the customer
+        resides"},"loyalty_points":{"type":"integer","source_table":"retail_schema.customer","source_column":"loyalty_points","description":"Accumulated
+        loyalty points of the customer"}}'
+      dataSetUrn: urn:dv:dataset:f5449a7d-d8d4-4962-8163-8a0926b9ae34
+    type: readPostGreSqlDbUsingJdbc
+productState:
+  isDynamic: true
+  alias: 9_employee_trim
+  retentionVersions: ""
+  logicalSchema:
+    properties:
+      customer_id:
+        type: STRING
+        description: Unique identifier for each customer
+        sourceColumn: customer_id
+        sourceTable: retail_schema.customer
+      customer_name:
+        type: STRING
+        description: Full name of the customer
+        sourceColumn: customer_name
+        sourceTable: retail_schema.customer
+      email:
+        type: STRING
+        description: Email address of the customer
+        sourceColumn: email
+        sourceTable: retail_schema.customer
+      phone:
+        type: STRING
+        description: Phone number of the customer
+        sourceColumn: phone
+        sourceTable: retail_schema.customer
+      city:
+        type: STRING
+        description: City where the customer resides
+        sourceColumn: city
+        sourceTable: retail_schema.customer
+      country:
+        type: STRING
+        description: Country where the customer resides
+        sourceColumn: country
+        sourceTable: retail_schema.customer
+      loyalty_points:
+        type: STRING
+        description: Accumulated loyalty points of the customer
+        sourceColumn: loyalty_points
+        sourceTable: retail_schema.customer
+  stateStoreType: writeDataFrameToPostgresTable
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  connection: Postgres Connection
+  tableName: dw.trim_customer_name
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: true
+    loggingOptions:
+      printSchema: true
+      count: true
+      showData: true
+  refreshInterval: 16 12 * * *
+transformation:
+  - isDynamic: true
+    alias: Trim_Data_1
+    description: Trimming the customer name column
+    sequence: 2
+    inputDataFrame: Postgres_Customer_1
+    optional:
+      persistDataFrame: false
+      useAllColumns: false
+      columns:
+        - customer_name
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
+    type: trimDataFrame
+controlPort:
+  dataQualityRules: {}
