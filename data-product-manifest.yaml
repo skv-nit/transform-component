@@ -129,11 +129,31 @@ productState:
   refreshInterval: 15 12 * * *
 transformation:
   - isDynamic: true
+    alias: Drop_Columns_1
+    description: dropping emp_id coulmn
+    sequence: 2
+    inputDataFrame: Postgres_Employee_1
+    columns:
+      - emp_id
+    optional:
+      persistDataFrame: false
+    type: dropColumns
+  - isDynamic: true
+    alias: Drop_Columns_2
+    description: dropping emp_id coulmn
+    sequence: 4
+    inputDataFrame: Postgres_Employee_Foreign_1
+    columns:
+      - emp_id
+    optional:
+      persistDataFrame: false
+    type: dropColumns
+  - isDynamic: true
     alias: Union_1
     description: performing union on two different employee tables
-    sequence: 3
-    inputDataFrame1: Postgres_Employee_Foreign_1
-    inputDataFrame2: Postgres_Employee_1
+    sequence: 5
+    inputDataFrame1: Drop_Columns_1
+    inputDataFrame2: Drop_Columns_2
     optional:
       persistDataFrame: false
       mergeSchema: true
