@@ -70,7 +70,49 @@ productState:
   isDynamic: true
   alias: 8_union_on_employee
   retentionVersions: ""
-  logicalSchema: ""
+  logicalSchema:
+    properties:
+      emp_id:
+        type: STRING
+        description: Unique identifier for each employee
+        sourceColumn: emp_id
+        sourceTable: public.employee
+      first_name:
+        type: STRING
+        description: First name of the employee
+        sourceColumn: first_name
+        sourceTable: public.employee
+      last_name:
+        type: STRING
+        description: Last name of the employee
+        sourceColumn: last_name
+        sourceTable: public.employee
+      age:
+        type: STRING
+        description: Age of the employee
+        sourceColumn: age
+        sourceTable: public.employee
+      city:
+        type: STRING
+        description: City where the employee resides
+        sourceColumn: city
+        sourceTable: public.employee
+      dept_id:
+        type: STRING
+        description: Reference to the department the employee belongs to
+          (public.department.dept_id)
+        sourceColumn: dept_id
+        sourceTable: public.employee
+      salary:
+        type: STRING
+        description: Salary of the employee
+        sourceColumn: salary
+        sourceTable: public.employee
+      hire_date:
+        type: STRING
+        description: Date when the employee was hired
+        sourceColumn: hire_date
+        sourceTable: public.employee
   stateStoreType: writeDataFrameToPostgresTable
   isProfilingEnabled: false
   updateStrategy: Overwrite
@@ -88,16 +130,13 @@ productState:
 transformation:
   - isDynamic: true
     alias: Union_1
-    description: performing union on employee
+    description: performing union on two different employee tables
     sequence: 3
-    inputDataFrame1: Postgres_Employee_1
-    inputDataFrame2: Postgres_Employee_Foreign_1
+    inputDataFrame1: Postgres_Employee_Foreign_1
+    inputDataFrame2: Postgres_Employee_1
     optional:
       persistDataFrame: false
       mergeSchema: true
-      loggingOptions:
-        count: true
-        showData: true
     type: unionDataFrames
 controlPort:
   dataQualityRules: {}
