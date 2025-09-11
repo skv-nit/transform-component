@@ -101,7 +101,7 @@ transformation:
     inputDataFrame: Postgres_Employee_1
     groupByColumns:
       - columnName: dept_id
-        aliasName: Department
+        aliasName: total_employees
     aggregateColumns:
       - columnName: salary
         functionName: Avg
