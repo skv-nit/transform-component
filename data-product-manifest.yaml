@@ -157,6 +157,10 @@ transformation:
     optional:
       persistDataFrame: false
       mergeSchema: true
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
     type: unionDataFrames
 controlPort:
   dataQualityRules: {}
