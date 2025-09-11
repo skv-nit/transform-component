@@ -91,6 +91,8 @@ productState:
     persistDataFrame: false
     enableDataReconciliation: false
     enforceSchema: true
+    loggingOptions:
+      showData: true
   refreshInterval: 14 12 * * *
 transformation:
   - isDynamic: true
@@ -104,6 +106,8 @@ transformation:
       - hire_date
     optional:
       persistDataFrame: false
+      loggingOptions:
+        count: true
     type: dropColumns
 controlPort:
   dataQualityRules: {}
