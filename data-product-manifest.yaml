@@ -1,0 +1,121 @@
+jobId: "1078"
+jobName: 2 - Rename - Employee - Suman
+jobType: Source Aligned Data Product
+developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
+domain: business
+alias: 2_employee_rename_and_saving_after_renaming
+discoveryPort:
+  name: 2 - Rename - Employee - Suman
+inputPorts:
+  - alias: Postgres_Employee_1
+    isDynamic: true
+    connection: Postgres Connection
+    tableName/query: employee
+    optional:
+      persistDataFrame: false
+      enableDataReconciliation: false
+      enforceSchema: false
+      jsonSchema: '{"emp_id":{"type":"integer","source_table":"public.employee","source_column":"emp_id","description":"Unique
+        identifier for each
+        employee"},"first_name":{"type":"string","source_table":"public.employee","source_column":"first_name","description":"First
+        name of the
+        employee"},"last_name":{"type":"string","source_table":"public.employee","source_column":"last_name","description":"Last
+        name of the
+        employee"},"age":{"type":"integer","source_table":"public.employee","source_column":"age","description":"Age
+        of the
+        employee"},"city":{"type":"string","source_table":"public.employee","source_column":"city","description":"City
+        where the employee
+        resides"},"dept_id":{"type":"integer","source_table":"public.employee","source_column":"dept_id","description":"Reference
+        to the department the employee belongs to
+        (public.department.dept_id)"},"salary":{"type":"integer","source_table":"public.employee","source_column":"salary","description":"Salary
+        of the
+        employee"},"hire_date":{"type":"date","source_table":"public.employee","source_column":"hire_date","description":"Date
+        when the employee was hired"}}'
+      dataSetUrn: urn:dv:dataset:e9c74126-2289-41f2-8c37-228f487ce048
+      loggingOptions:
+        showData: true
+    type: readPostGreSqlDbUsingJdbc
+productState:
+  isDynamic: true
+  alias: 2_employee_rename_and_saving_after_renaming
+  retentionVersions: ""
+  logicalSchema:
+    properties:
+      emp_id:
+        type: STRING
+        description: Unique identifier for each employee
+        sourceColumn: emp_id
+        sourceTable: public.employee
+      first_name:
+        type: STRING
+        description: First name of the employee
+        sourceColumn: first_name
+        sourceTable: public.employee
+      last_name:
+        type: STRING
+        description: Last name of the employee
+        sourceColumn: last_name
+        sourceTable: public.employee
+      age:
+        type: STRING
+        description: Age of the employee
+        sourceColumn: age
+        sourceTable: public.employee
+      city:
+        type: STRING
+        description: City where the employee resides
+        sourceColumn: city
+        sourceTable: public.employee
+      dept_id:
+        type: STRING
+        description: Reference to the department the employee belongs to
+          (public.department.dept_id)
+        sourceColumn: dept_id
+        sourceTable: public.employee
+      salary:
+        type: STRING
+        description: Salary of the employee
+        sourceColumn: salary
+        sourceTable: public.employee
+      hire_date:
+        type: STRING
+        description: Date when the employee was hired
+        sourceColumn: hire_date
+        sourceTable: public.employee
+  stateStoreType: writeDataFrameToPostgresTable
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  connection: Postgres Connection
+  tableName: dw.rename_employee
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: true
+    loggingOptions:
+      showData: true
+  refreshInterval: 13 12 * * *
+transformation:
+  - isDynamic: true
+    alias: Rename_Columns_1
+    description: Renaming column columns with underscore
+    sequence: 2
+    inputDataFrame: Postgres_Employee_1
+    renameColumns:
+      emp_id: id
+      first_name: firstName
+      last_name: lastName
+      dept_id: deptName
+      hire_date: hireDate
+    optional:
+      persistDataFrame: false
+    type: renameColumns
+controlPort:
+  dataQualityRules:
+    NullValueCheck:
+      productState:
+        checks:
+          - column: first_name
+            expression: ==
+            number: 0
+            owner: suman
+        referenceAlias: 2_employee_rename_and_saving_after_renaming
