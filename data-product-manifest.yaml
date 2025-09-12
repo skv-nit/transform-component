@@ -1,0 +1,112 @@
+jobId: "1089"
+jobName: 9 - Trim - Project - Suman
+jobType: Source Aligned Data Product
+developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
+domain: business
+alias: loading_project_name_column_after_trim_into_postgres
+discoveryPort:
+  name: 9 - Trim - Project - Suman
+inputPorts:
+  - alias: Postgres_Project_1
+    isDynamic: true
+    connection: Postgres Connection
+    tableName/query: project
+    optional:
+      persistDataFrame: false
+      enableDataReconciliation: false
+      enforceSchema: false
+      jsonSchema: '{"project_id":{"type":"integer","source_table":"public.project","source_column":"project_id","description":"Unique
+        identifier for the
+        project"},"project_name":{"type":"string","source_table":"public.project","source_column":"project_name","description":"Name
+        of the
+        project"},"dept_id":{"type":"integer","source_table":"public.project","source_column":"dept_id","description":"Reference
+        to the department handling the
+        project"},"budget":{"type":"integer","source_table":"public.project","source_column":"budget","description":"Allocated
+        budget for the project"}}'
+      dataSetUrn: urn:dv:dataset:b002c4f1-43f1-47d0-a933-6a393c7f2a5b
+      loggingOptions:
+        printSchema: true
+        count: true
+    type: readPostGreSqlDbUsingJdbc
+productState:
+  isDynamic: true
+  alias: loading_project_name_column_after_trim_into_postgres
+  retentionVersions: ""
+  logicalSchema:
+    properties:
+      project_name:
+        type: STRING
+        description: Name of the project
+        sourceColumn: project_name
+        sourceTable: public.project
+      dept_id:
+        type: STRING
+        description: Reference to the department handling the project
+        sourceColumn: dept_id
+        sourceTable: public.project
+      budget:
+        type: STRING
+        description: Allocated budget for the project
+        sourceColumn: budget
+        sourceTable: public.project
+  stateStoreType: writeDataFrameToPostgresTable
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  connection: Postgres Connection
+  tableName: dw.trip_project_name
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: true
+    loggingOptions:
+      printSchema: true
+      count: true
+      showData: true
+  refreshInterval: 16 12 * * *
+transformation:
+  - isDynamic: true
+    alias: Filter_1
+    description: filtering where project_id greater than six
+    sequence: 2
+    inputDataFrame: Postgres_Project_1
+    filterCondition: project_id > 6
+    isConditionAsJsonString: false
+    optional:
+      persistDataFrame: false
+      loggingOptions:
+        printSchema: true
+        count: true
+    type: filterTransform
+  - isDynamic: true
+    alias: Select_Columns_1
+    description: select project name budget and dept_id columns
+    sequence: 3
+    inputDataFrame: Filter_1
+    columns:
+      - project_name
+      - dept_id
+      - budget
+    optional:
+      persistDataFrame: false
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
+    type: selectColumns
+  - isDynamic: true
+    alias: Trim_Data_1
+    description: Trimming project name column
+    sequence: 4
+    inputDataFrame: Select_Columns_1
+    optional:
+      persistDataFrame: false
+      useAllColumns: false
+      columns:
+        - project_name
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
+    type: trimDataFrame
+controlPort:
+  dataQualityRules: {}
