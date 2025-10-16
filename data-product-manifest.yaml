@@ -1,0 +1,100 @@
+jobId: "1153"
+jobName: Account_Filter_SADP
+jobType: Source Aligned Data Product
+developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
+domain: business
+alias: loading_in_the_postgres
+discoveryPort:
+  name: Account_Filter_SADP
+inputPorts:
+  - alias: account_-_Accounts_and_Deposits_1
+    isDynamic: true
+    connection: Postgres Connection
+    tableName/query: account
+    optional:
+      persistDataFrame: false
+      enableDataReconciliation: false
+      enforceSchema: false
+      dataSetUrn: urn:dv:dataset:db973449-46fe-44f8-83a8-cd2e0f9fea71
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
+    type: readPostGreSqlDbUsingJdbc
+productState:
+  isDynamic: true
+  alias: loading_in_the_postgres
+  retentionVersions: ""
+  logicalSchema:
+    properties:
+      account_id:
+        type: STRING
+        description: Primary key, unique identifier for the account
+        sourceColumn: account_id
+        sourceTable: public.account
+      customer_id:
+        type: STRING
+        description: Reference to customer (public.customer.customer_id)
+        sourceColumn: customer_id
+        sourceTable: public.account
+      branch_id:
+        type: STRING
+        description: Reference to branch (public.branch.branch_id)
+        sourceColumn: branch_id
+        sourceTable: public.account
+      account_number:
+        type: STRING
+        description: Unique account number
+        sourceColumn: account_number
+        sourceTable: public.account
+      account_type:
+        type: STRING
+        description: Type of account (Savings, Current)
+        sourceColumn: account_type
+        sourceTable: public.account
+      balance:
+        type: STRING
+        description: Current balance of the account
+        sourceColumn: balance
+        sourceTable: public.account
+      status:
+        type: STRING
+        description: Status of the account (Active, Closed, etc.)
+        sourceColumn: status
+        sourceTable: public.account
+      opened_on:
+        type: STRING
+        description: Date when the account was opened
+        sourceColumn: opened_on
+        sourceTable: public.account
+  stateStoreType: writeDataFrameToPostgresTable
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  connection: Postgres Connection
+  tableName: dw.dp_sadp_account_status_filter
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: true
+    loggingOptions:
+      printSchema: true
+      count: true
+      showData: true
+  refreshInterval: 13 01 * * *
+transformation:
+  - isDynamic: true
+    alias: Filter_1
+    description: Filter the Account table
+    sequence: 2
+    inputDataFrame: account_-_Accounts_and_Deposits_1
+    filterCondition: status == "Closed"
+    isConditionAsJsonString: false
+    optional:
+      persistDataFrame: false
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
+    type: filterTransform
+controlPort:
+  dataQualityRules: {}
