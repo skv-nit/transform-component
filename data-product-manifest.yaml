@@ -3,9 +3,9 @@ jobName: Quality-Check-Test
 jobType: Source Aligned Data Product
 developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
 domain: business
-alias: save_data_to_postgres_skv_1
+alias: save_data_to_postgres_
 discoveryPort:
-  name: Quality-Check-Test_skv_1
+  name: Quality-Check-Test
 inputPorts:
   - alias: Postgres_Data_1_1
     isDynamic: true
@@ -15,6 +15,14 @@ inputPorts:
       persistDataFrame: false
       enableDataReconciliation: false
       enforceSchema: false
+      jsonSchema: '{"Name":{"type":"string","source_table":"public.data_1","source_column":"Name","description":"Name
+        of the
+        user"},"Age":{"type":"string","source_table":"public.data_1","source_column":"Age","description":"Age
+        of the
+        user"},"City":{"type":"string","source_table":"public.data_1","source_column":"City","description":"Location
+        of the
+        user"},"Occupation":{"type":"string","source_table":"public.data_1","source_column":"Occupation","description":"Occupation
+        of the user"}}'
       dataSetUrn: urn:dv:dataset:2a4d9b83-0e65-472a-9485-abb042427312
     type: readPostGreSqlDbUsingJdbc
 productState:
