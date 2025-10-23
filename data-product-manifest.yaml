@@ -1,0 +1,73 @@
+jobId: "1163"
+jobName: Quality-Check-Test
+jobType: Source Aligned Data Product
+developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
+domain: business
+alias: save_data_to_postgres_
+discoveryPort:
+  name: Quality-Check-Test
+inputPorts:
+  - alias: Postgres_Data_1_1
+    isDynamic: true
+    connection: Postgres Connection
+    tableName/query: data_1
+    optional:
+      persistDataFrame: false
+      enableDataReconciliation: false
+      enforceSchema: false
+      dataSetUrn: urn:dv:dataset:2a4d9b83-0e65-472a-9485-abb042427312
+    type: readPostGreSqlDbUsingJdbc
+productState:
+  isDynamic: true
+  alias: save_data_to_postgres_
+  retentionVersions: ""
+  logicalSchema:
+    properties:
+      Name:
+        type: STRING
+        description: Name of the user
+        sourceColumn: Name
+        sourceTable: public.data_1
+      Age:
+        type: STRING
+        description: Age of the user
+        sourceColumn: Age
+        sourceTable: public.data_1
+      City:
+        type: STRING
+        description: Location of the user
+        sourceColumn: City
+        sourceTable: public.data_1
+      Occupation:
+        type: STRING
+        description: Occupation of the user
+        sourceColumn: Occupation
+        sourceTable: public.data_1
+  stateStoreType: writeDataFrameToPostgresTable
+  isProfilingEnabled: true
+  updateStrategy: Overwrite
+  connection: Postgres Connection
+  tableName: data_quality_test2
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: true
+  refreshInterval: 33 12 * * *
+transformation:
+  - isDynamic: true
+    alias: Spark_SQL_1
+    description: "all data copy "
+    sequence: 2
+    inputDataFrameList:
+      - inputDataFrame: Postgres_Data_1_1
+        tempViewName: temp
+    query: select * from temp
+    optional:
+      persistDataFrame: false
+      loggingOptions:
+        printSchema: true
+        count: true
+        showData: true
+    type: operationThroughSqlQuery
+controlPort:
+  dataQualityRules: {}
