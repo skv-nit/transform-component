@@ -1,0 +1,47 @@
+jobId: "1130"
+jobName: DP_SADP_POSTMAN_TEST
+jobType: Source Aligned Data Product
+developerId: 7679c14a-8908-42a5-8656-2abecbfa4b49
+domain: business
+alias: ""
+discoveryPort:
+  name: DP_SADP_POSTMAN_TEST
+inputPorts:
+  - alias: account_-_Accounts_and_Deposits_1
+    isDynamic: true
+    connection: Postgres Connection
+    tableName/query: account
+    optional:
+      persistDataFrame: false
+      enableDataReconciliation: false
+      enforceSchema: false
+      dataSetUrn: urn:dv:dataset:db973449-46fe-44f8-83a8-cd2e0f9fea71
+    type: readPostGreSqlDbUsingJdbc
+productState:
+  isDynamic: true
+  alias: ""
+  retentionVersions: ""
+  logicalSchema: ""
+  stateStoreType: writeDataFrameToPostgresTable
+  isProfilingEnabled: false
+  connection: ""
+  tableName: ""
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: false
+  refreshInterval: 33 13 * * *
+transformation:
+  - isDynamic: true
+    alias: Spark_SQL_1
+    description: ""
+    sequence: 2
+    inputDataFrameList:
+      - inputDataFrame: account_-_Accounts_and_Deposits_1
+        tempViewName: ""
+    query: ""
+    optional:
+      persistDataFrame: false
+    type: operationThroughSqlQuery
+controlPort:
+  dataQualityRules: {}
